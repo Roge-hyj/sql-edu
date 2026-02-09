@@ -1,26 +1,8 @@
 import { request } from "@/utils/request";
+import type { QuestionOut, KnowledgePoint } from "@/types";
 
-export type QuestionOut = {
-  id: number;
-  title: string;
-  content: string;
-  /** 多语言题面（可选；未填写则前端回退到 title/content） */
-  title_en?: string | null;
-  content_en?: string | null;
-  title_zh_tw?: string | null;
-  content_zh_tw?: string | null;
-  difficulty: number;
-  correct_sql: string;
-  time_limit_seconds?: number | null;
-  /** 表结构预览 JSON：tables[{name,columns,rows}]，供学生查看列名与示例数据 */
-  schema_preview?: string | null;
-  /** 要求的结果列名或完整说明，供学生端显著展示，避免列名不规范错误 */
-  required_output_columns?: string | null;
-  /** 动态难度 1～10，由客观数据与学生评分综合计算 */
-  display_difficulty?: number | null;
-  /** 限时挑战建议秒数 */
-  suggested_time_seconds?: number | null;
-};
+// 重新导出类型，保持向后兼容
+export type { QuestionOut, KnowledgePoint } from "@/types";
 
 export function getQuestions(params?: { skip?: number; limit?: number }) {
   const skip = params?.skip ?? 0;
@@ -99,18 +81,6 @@ export function submitDifficultyFeedback(questionId: number, rating: number) {
     data: { rating },
   });
 }
-
-/** SQL 知识点（入门→精通），教师端按知识点生成题目用 */
-export type KnowledgePoint = {
-  id: string;
-  name: string;
-  level: string;
-  description: string;
-  /** 多语言可选字段（后端可能返回），前端按 ai_language 选择显示 */
-  name_i18n?: Record<string, string>;
-  level_i18n?: Record<string, string>;
-  description_i18n?: Record<string, string>;
-};
 
 export function getKnowledgePoints() {
   return request<KnowledgePoint[]>({

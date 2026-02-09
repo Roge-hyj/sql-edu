@@ -1,8 +1,8 @@
 import { request } from "@/utils/request";
+import type { SqlHintResponse, SqlCheckResponse, SubmissionOut, ChatMessage } from "@/types";
 
-export type SqlHintResponse = {
-  hint: any;
-};
+// 重新导出类型，保持向后兼容
+export type { SqlHintResponse, SqlCheckResponse, SubmissionOut, ChatMessage } from "@/types";
 
 export function sqlHint(data: { sql: string }) {
   return request<SqlHintResponse>({
@@ -11,21 +11,6 @@ export function sqlHint(data: { sql: string }) {
     data,
   });
 }
-
-export type SqlCheckResponse = {
-  is_correct: boolean;
-  hint: any;
-  submission_id: number;
-  error_message?: string | null;
-  /** 因危险操作（DROP/DELETE 等）被拒，而非结果不正确 */
-  is_safety_blocked?: boolean;
-  /** 本次获得经验（仅首次正确完成该题时返回） */
-  earned_experience?: number | null;
-  /** 是否升级 */
-  level_up?: boolean;
-  /** 新等级（仅升级时返回） */
-  new_level?: number | null;
-};
 
 export function checkSql(data: {
   student_sql: string;
@@ -40,17 +25,6 @@ export function checkSql(data: {
     data,
   });
 }
-
-export type SubmissionOut = {
-  id: number;
-  user_id: number;
-  question_id: number;
-  student_sql: string;
-  ai_hint: string | null;
-  is_correct: boolean;
-  hint_level: number;
-  created_at: string;
-};
 
 export function getMySubmissions(params?: { question_id?: number; limit?: number }) {
   const limit = params?.limit ?? 100;
@@ -67,13 +41,6 @@ export function getSubmission(submissionId: number) {
     method: "GET",
   });
 }
-
-export type ChatMessage = {
-  id: number;
-  role: "system" | "user" | "assistant";
-  content: string;
-  created_at: string;
-};
 
 export function getChatMessages(params: { question_id: number; limit?: number }) {
   const limit = params.limit ?? 80;

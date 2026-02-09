@@ -1,28 +1,8 @@
 import { request } from "@/utils/request";
+import type { ResponseOut, UserSchema, LoginOut } from "@/types";
 
-export type ResponseOut = {
-  result: "success" | "failure";
-  detail?: string | null;
-};
-
-export type UserSchema = {
-  id: number;
-  email: string;
-  username: string;
-  role: "student" | "teacher";
-  /** 当前等级（学生端展示） */
-  level?: number;
-  /** 当前等级内经验（进度条当前值） */
-  experience_in_level?: number;
-  /** 升到下一级所需经验（进度条上限） */
-  xp_to_next_level?: number;
-};
-
-export type LoginOut = {
-  user: UserSchema;
-  token: string;
-  refresh_token: string;
-};
+// 重新导出类型，保持向后兼容
+export type { ResponseOut, UserSchema, LoginOut } from "@/types";
 
 export function getEmailCode(params: { email: string }) {
   return request<ResponseOut>({

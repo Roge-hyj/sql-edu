@@ -6,8 +6,10 @@
 """
 
 from .ai import router as ai_router
+from .auth import router as auth_router
+from .question import router as question_router
 
-__all__ = ["ai_router"]
+__all__ = ["ai_router", "auth_router", "question_router"]
 
 
 
